@@ -1,0 +1,1 @@
+The project implements role-based access for admin, doctors, and staff to ensure data privacy and controlled access to records. Database tables were designed using normalization principles and ER modeling to maintain data integrity and avoid redundancy. Features such as input validation, exception handling, and modular design improve system reliability and usability.
