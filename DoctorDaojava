@@ -1,0 +1,61 @@
+package com.JDBC;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class DoctorDao {
+	public void addDoctor(String name,String specialization) throws Exception{
+		Connection con = DBconnection.getConnection();
+		PreparedStatement ps = con.prepareStatement(
+				"insert into doctors(name,specialization,status) values(?,?,'Available')"
+				);
+		
+		ps.setString(1, name);
+		ps.setString(2, specialization);
+		ps.executeUpdate();
+		
+		System.out.println("Doctor added SuccessFully...");
+	}
+	
+	public void viewDoctors() throws Exception{
+		Connection con = DBconnection.getConnection();
+		Statement st = con.createStatement();
+		ResultSet rs = st.executeQuery("select * from doctors");
+		
+		System.out.println("Doctor List: ");
+		while(rs.next()) {
+			System.out.println(
+					rs.getInt("doctor_id")+" |"+
+					rs.getString("name")+" |"+
+					rs.getString("specialization")+" |"+
+					rs.getString("status")
+					);
+		}
+		con.close();
+	}
+	
+	public void updateDoctor(int id,String name,String specialization)throws Exception{
+		Connection con = DBconnection.getConnection();
+		PreparedStatement ps = con.prepareStatement(
+				"UPDATE doctors SET name = ?,specialization = ? WHERE doctor_id = ?"
+				);
+		
+		ps.setString(1,name);
+		ps.setString(2, specialization);
+		ps.setInt(3, id);
+		
+		int result = ps.executeUpdate();
+		
+		if(result>0) {
+			System.out.println("doctor updated successfully..");
+		}
+		else {
+			System.out.println("doctor not found..");
+		}
+		con.close();
+	}
+	
+
+}
